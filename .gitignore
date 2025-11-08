@@ -1,0 +1,17 @@
+# Compiled files
+*.class
+out/
+
+# Log files
+*.log
+
+# IntelliJ IDEA
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/shelf/
+.idea/dataSources/
+.idea/httpRequests/
+*.iws
+
+# macOS
+.DS_Store
