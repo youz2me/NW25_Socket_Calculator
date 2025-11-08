@@ -9,7 +9,6 @@ public class CalculatorView extends JFrame implements ActionListener {
 
     //region Properties
 
-    private JPanel buttonPanel;
     private JTextField displayTextField;
 
     private double firstNumber = 0;
@@ -33,7 +32,7 @@ public class CalculatorView extends JFrame implements ActionListener {
             e.printStackTrace();
         }
 
-        SwingUtilities.invokeLater(() -> new CalculatorView());
+        SwingUtilities.invokeLater(CalculatorView::new);
     }
 
     //endregion
@@ -80,7 +79,7 @@ public class CalculatorView extends JFrame implements ActionListener {
     }
 
     private void createButtonPanel() {
-        buttonPanel = new JPanel(new GridLayout(5, 4, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(5, 4, 10, 10));
         buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
