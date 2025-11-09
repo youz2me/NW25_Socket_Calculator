@@ -9,8 +9,6 @@ public final class ServerConfig {
     //region Properties
 
     private static final String CONFIG_FILE = "server_info.dat";
-    private static final String DEFAULT_HOST = "localhost";
-    private static final int DEFAULT_PORT = 503;
 
     private final String host;
     private final int port;
