@@ -1,6 +1,6 @@
 package client.view;
 
-import client.service.CalculatorClient;
+import client.service.NetworkService;
 import shared.Operation;
 
 import javax.swing.*;
@@ -14,7 +14,7 @@ public final class CalculatorView extends JFrame implements ActionListener {
     //region Properties
 
     private JTextField displayTextField;
-    private final CalculatorClient client;
+    private final NetworkService client;
 
     private double firstNumber = 0;
     private String operatorText = "";
@@ -25,7 +25,7 @@ public final class CalculatorView extends JFrame implements ActionListener {
     //region Initialization
 
     public CalculatorView() {
-        this.client = new CalculatorClient();
+        this.client = new NetworkService();
         setView();
         setComponent();
         setVisible(true);

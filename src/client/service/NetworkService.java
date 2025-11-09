@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public final class CalculatorClient {
+public final class NetworkService {
 
     //region Properties
 
@@ -20,11 +20,11 @@ public final class CalculatorClient {
 
     //region Initialization
 
-    public CalculatorClient() {
+    public NetworkService() {
         this.networkConfiguration = new NetworkConfiguration();
     }
 
-    public CalculatorClient(NetworkConfiguration networkConfiguration) {
+    public NetworkService(NetworkConfiguration networkConfiguration) {
         this.networkConfiguration = networkConfiguration;
     }
 
