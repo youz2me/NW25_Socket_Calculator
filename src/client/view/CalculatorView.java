@@ -1,15 +1,20 @@
 package client.view;
 
+import client.service.CalculatorClient;
+import shared.Operation;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
-public class CalculatorView extends JFrame implements ActionListener {
+public final class CalculatorView extends JFrame implements ActionListener {
 
     //region Properties
 
     private JTextField displayTextField;
+    private final CalculatorClient client;
 
     private double firstNumber = 0;
     private String operatorText = "";
@@ -20,6 +25,7 @@ public class CalculatorView extends JFrame implements ActionListener {
     //region Initialization
 
     public CalculatorView() {
+        this.client = new CalculatorClient();
         setView();
         setComponent();
         setVisible(true);
@@ -94,7 +100,7 @@ public class CalculatorView extends JFrame implements ActionListener {
         for (String[] strings : buttons) {
             for (String text : strings) {
                 switch (text) {
-                    case "0_placeholder" -> {} // Skip placeholder
+                    case "0_placeholder" -> {}
                     case "±", "%" -> {
                         JButton emptyButton = new RoundButton("");
                         emptyButton.setEnabled(false);
@@ -191,11 +197,19 @@ public class CalculatorView extends JFrame implements ActionListener {
         if (!operatorText.isEmpty() && !shouldClearDisplay) {
             double secondNumber = Double.parseDouble(displayTextField.getText());
 
-            // TODO: 서버 소켓 통신으로 계산 처리
-            // 서버에 firstNumber, operatorText, secondNumber를 전송하고 결과를 받아옴
-            double result = 0;
+            try {
+                Operation operation = Operation.fromSymbol(operatorText);
+                double result = client.calculate(operation, firstNumber, secondNumber);
 
-            displayTextField.setText(result == (long) result ? String.valueOf((long) result) : String.valueOf(result));
+                displayTextField.setText(result == (long) result ? String.valueOf((long) result) : String.valueOf(result));
+            } catch (IOException e) {
+                displayTextField.setText("서버 연결 오류");
+                System.err.println("Server connection error: " + e.getMessage());
+            } catch (IllegalArgumentException e) {
+                displayTextField.setText("연산 오류");
+                System.err.println("Operation error: " + e.getMessage());
+            }
+
             operatorText = "";
             shouldClearDisplay = true;
         }
