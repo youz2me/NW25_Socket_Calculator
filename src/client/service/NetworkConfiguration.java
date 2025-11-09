@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public final class ServerConfig {
+public final class NetworkConfiguration {
 
     //region Properties
 
@@ -17,7 +17,7 @@ public final class ServerConfig {
 
     //region Initialization
 
-    public ServerConfig() {
+    public NetworkConfiguration() {
         ServerInfo info = loadFile();
         this.host = info.host;
         this.port = info.port;

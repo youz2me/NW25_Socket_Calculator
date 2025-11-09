@@ -14,18 +14,18 @@ public final class CalculatorClient {
 
     //region Properties
 
-    private final ServerConfig serverConfig;
+    private final NetworkConfiguration networkConfiguration;
 
     //endregion
 
     //region Initialization
 
     public CalculatorClient() {
-        this.serverConfig = new ServerConfig();
+        this.networkConfiguration = new NetworkConfiguration();
     }
 
-    public CalculatorClient(ServerConfig serverConfig) {
-        this.serverConfig = serverConfig;
+    public CalculatorClient(NetworkConfiguration networkConfiguration) {
+        this.networkConfiguration = networkConfiguration;
     }
 
     //endregion
@@ -47,7 +47,7 @@ public final class CalculatorClient {
 
     private Response sendRequest(Request request) throws IOException {
         try (
-            Socket socket = new Socket(serverConfig.getHost(), serverConfig.getPort());
+            Socket socket = new Socket(networkConfiguration.getHost(), networkConfiguration.getPort());
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
@@ -82,7 +82,7 @@ public final class CalculatorClient {
     //region Helper Methods
 
     public String getServerInfo() {
-        return serverConfig.getHost() + ":" + serverConfig.getPort();
+        return networkConfiguration.getHost() + ":" + networkConfiguration.getPort();
     }
 
     //endregion
