@@ -201,7 +201,14 @@ public final class CalculatorView extends JFrame implements ActionListener {
                 Operation operation = Operation.fromSymbol(operatorText);
                 double result = client.calculate(operation, firstNumber, secondNumber);
 
-                displayTextField.setText(result == (long) result ? String.valueOf((long) result) : String.valueOf(result));
+                if (result == (long) result) {
+                    displayTextField.setText(String.valueOf((long) result));
+                } else {
+                    String formatted = String.format("%.5f", result);
+                    formatted = formatted.replaceAll("0+$", "");
+                    formatted = formatted.replaceAll("\\.$", "");
+                    displayTextField.setText(formatted);
+                }
             } catch (NetworkException e) {
                 displayTextField.setText("네트워크 오류");
                 System.err.println("Network error: " + e.getMessage());
