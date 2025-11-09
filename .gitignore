@@ -16,4 +16,5 @@ out/
 # macOS
 .DS_Store
 
-.dat
+# Configuration files
+*.dat
