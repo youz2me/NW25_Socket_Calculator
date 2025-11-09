@@ -2,18 +2,24 @@ package protocol.response;
 
 public class Response {
     private final StatusCode statusCode;
-    private final String body;
+    private final String message;
+    private final String data;
 
-    public Response(StatusCode statusCode, String body) {
+    public Response(StatusCode statusCode, String message, String data) {
         this.statusCode = statusCode;
-        this.body = body;
+        this.message = message;
+        this.data = data;
     }
 
     public StatusCode getStatusCode() {
         return statusCode;
     }
 
-    public String getBody() {
-        return body;
+    public String getMessage() {
+        return message;
+    }
+
+    public String getData() {
+        return data;
     }
 }
