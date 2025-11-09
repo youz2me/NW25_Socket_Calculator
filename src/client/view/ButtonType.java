@@ -1,11 +1,11 @@
 package client.view;
 
 public enum ButtonType {
-    NUMBER,      // 0-9
-    DECIMAL,     // .
-    OPERATOR,    // +, -, ×, ÷
-    EQUALS,      // =
-    CLEAR;       // AC
+    NUMBER,
+    DECIMAL,
+    OPERATOR,
+    EQUALS,
+    CLEAR;
 
     public static ButtonType from(String command) {
         return switch (command) {
