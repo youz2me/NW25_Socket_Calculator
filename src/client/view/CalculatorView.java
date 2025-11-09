@@ -1,5 +1,6 @@
 package client.view;
 
+import client.exception.NetworkException;
 import client.service.NetworkService;
 import shared.Operation;
 
@@ -7,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public final class CalculatorView extends JFrame implements ActionListener {
 
@@ -202,9 +202,9 @@ public final class CalculatorView extends JFrame implements ActionListener {
                 double result = client.calculate(operation, firstNumber, secondNumber);
 
                 displayTextField.setText(result == (long) result ? String.valueOf((long) result) : String.valueOf(result));
-            } catch (IOException e) {
-                displayTextField.setText("서버 연결 오류");
-                System.err.println("Server connection error: " + e.getMessage());
+            } catch (NetworkException e) {
+                displayTextField.setText("네트워크 오류");
+                System.err.println("Network error: " + e.getMessage());
             } catch (IllegalArgumentException e) {
                 displayTextField.setText("연산 오류");
                 System.err.println("Operation error: " + e.getMessage());

@@ -1,5 +1,8 @@
 package client.service;
 
+import client.exception.ConnectionFailedException;
+import client.exception.InvalidResponseException;
+import client.exception.ServerErrorException;
 import protocol.request.*;
 import protocol.response.*;
 import shared.Operation;
@@ -32,7 +35,7 @@ public final class NetworkService {
 
     //region Request Processing
 
-    public double calculate(Operation operation, double num1, double num2) throws IOException {
+    public double calculate(Operation operation, double num1, double num2) {
         String body = operation.name() + " " + num1 + " " + num2;
         Request request = new Request(Method.POST, body);
 
@@ -41,11 +44,11 @@ public final class NetworkService {
         if (response.getStatusCode() == StatusCode.OK) {
             return Double.parseDouble(response.getData());
         } else {
-            throw new IOException("Server error: " + response.getMessage());
+            throw new ServerErrorException(response.getStatusCode(), response.getMessage());
         }
     }
 
-    private Response sendRequest(Request request) throws IOException {
+    private Response sendRequest(Request request) {
         try (
             Socket socket = new Socket(networkConfiguration.getHost(), networkConfiguration.getPort());
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -53,6 +56,8 @@ public final class NetworkService {
         ) {
             sendRequestMessage(out, request);
             return receiveResponse(in);
+        } catch (IOException e) {
+            throw new ConnectionFailedException("Failed to connect to server", e);
         }
     }
 
@@ -62,19 +67,23 @@ public final class NetworkService {
     }
 
     private Response receiveResponse(BufferedReader in) throws IOException {
-        String statusCodeLine = in.readLine();
-        String messageLine = in.readLine();
-        String dataLine = in.readLine();
+        try {
+            String statusCodeLine = in.readLine();
+            String messageLine = in.readLine();
+            String dataLine = in.readLine();
 
-        if (statusCodeLine == null || messageLine == null) {
-            throw new IOException("Invalid response from server");
+            if (statusCodeLine == null || messageLine == null) {
+                throw new InvalidResponseException("Invalid response format from server");
+            }
+
+            int code = Integer.parseInt(statusCodeLine);
+            StatusCode statusCode = StatusCode.fromCode(code);
+            String data = dataLine != null ? dataLine : "";
+
+            return new Response(statusCode, messageLine, data);
+        } catch (NumberFormatException e) {
+            throw new InvalidResponseException("Invalid status code format", e);
         }
-
-        int code = Integer.parseInt(statusCodeLine);
-        StatusCode statusCode = StatusCode.fromCode(code);
-        String data = dataLine != null ? dataLine : "";
-
-        return new Response(statusCode, messageLine, data);
     }
 
     //endregion
