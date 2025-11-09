@@ -8,6 +8,7 @@ import server.exception.CalculatorException;
 import server.exception.InvalidSyntaxException;
 import server.exception.InvalidOperationException;
 import server.service.CalculatorService;
+import shared.NetworkLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,6 +38,7 @@ public final class CalculatorController implements Runnable {
 
     @Override
     public void run() {
+        String clientInfo = clientSocket.getInetAddress().toString();
         PrintWriter out = null;
         try (
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -44,16 +46,20 @@ public final class CalculatorController implements Runnable {
         ) {
             out = writer;
             Request request = readRequest(in);
+            NetworkLogger.logRequest("⬇️ RECEIVED", request, clientInfo);
+
             Response response = processRequest(request);
+            NetworkLogger.logResponse("⬆️ SENDING", response, clientInfo);
             sendResponse(out, response);
         } catch (CalculatorException e) {
+            NetworkLogger.logError("Calculator", e);
             if (out != null) {
                 Response errorResponse = new Response(StatusCode.BAD_REQUEST, e.getErrorType().message, "");
+                NetworkLogger.logResponse("⬆️ ERROR", errorResponse, clientInfo);
                 sendResponse(out, errorResponse);
             }
-            System.err.println("Calculator error: " + e.getMessage());
         } catch (IOException e) {
-            System.err.println("IO error: " + e.getMessage());
+            NetworkLogger.logError("IO", e);
         } finally {
             closeSocket();
         }

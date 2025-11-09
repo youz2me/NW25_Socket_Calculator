@@ -5,6 +5,7 @@ import client.exception.InvalidResponseException;
 import client.exception.ServerErrorException;
 import protocol.request.*;
 import protocol.response.*;
+import shared.NetworkLogger;
 import shared.Operation;
 
 import java.io.BufferedReader;
@@ -49,14 +50,21 @@ public final class NetworkService {
     }
 
     private Response sendRequest(Request request) {
+        String serverInfo = networkConfiguration.getHost() + ":" + networkConfiguration.getPort();
+
         try (
             Socket socket = new Socket(networkConfiguration.getHost(), networkConfiguration.getPort());
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
+            NetworkLogger.logRequest("⬆️ SENDING", request, serverInfo);
             sendRequestMessage(out, request);
-            return receiveResponse(in);
+
+            Response response = receiveResponse(in);
+            NetworkLogger.logResponse("⬇️ RECEIVED", response, serverInfo);
+            return response;
         } catch (IOException e) {
+            NetworkLogger.logError("Connection", e);
             throw new ConnectionFailedException();
         }
     }
