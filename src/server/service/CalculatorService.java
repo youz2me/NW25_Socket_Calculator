@@ -1,4 +1,4 @@
-package server;
+package server.service;
 
 import server.exception.DivideByZeroException;
 import server.exception.InvalidOperationException;

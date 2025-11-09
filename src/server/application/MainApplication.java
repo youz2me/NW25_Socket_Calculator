@@ -1,4 +1,6 @@
-package server;
+package server.application;
+
+import server.controller.CalculatorController;
 
 import java.io.IOException;
 import java.net.ServerSocket;

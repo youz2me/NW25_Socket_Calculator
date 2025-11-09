@@ -1,4 +1,4 @@
-package server;
+package server.controller;
 
 import protocol.request.Request;
 import protocol.response.Response;
@@ -7,6 +7,7 @@ import protocol.request.Method;
 import server.exception.CalculatorException;
 import server.exception.InvalidSyntaxException;
 import server.exception.InvalidOperationException;
+import server.service.CalculatorService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
