@@ -57,7 +57,7 @@ public final class NetworkService {
             sendRequestMessage(out, request);
             return receiveResponse(in);
         } catch (IOException e) {
-            throw new ConnectionFailedException("Failed to connect to server", e);
+            throw new ConnectionFailedException();
         }
     }
 
@@ -73,7 +73,7 @@ public final class NetworkService {
             String dataLine = in.readLine();
 
             if (statusCodeLine == null || messageLine == null) {
-                throw new InvalidResponseException("Invalid response format from server");
+                throw new InvalidResponseException();
             }
 
             int code = Integer.parseInt(statusCodeLine);
@@ -82,7 +82,7 @@ public final class NetworkService {
 
             return new Response(statusCode, messageLine, data);
         } catch (NumberFormatException e) {
-            throw new InvalidResponseException("Invalid status code format", e);
+            throw new InvalidResponseException();
         }
     }
 

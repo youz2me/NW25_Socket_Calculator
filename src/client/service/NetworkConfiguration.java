@@ -33,7 +33,7 @@ public final class NetworkConfiguration {
             String portStr = reader.readLine();
 
             if (host == null || portStr == null) {
-                throw new RuntimeException("Invalid server_info.dat format: missing host or port");
+                throw new RuntimeException("Invalid configuration file format");
             }
 
             int port = Integer.parseInt(portStr.trim());
@@ -41,9 +41,9 @@ public final class NetworkConfiguration {
             return new ServerInfo(host.trim(), port);
 
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load " + CONFIG_FILE + ": " + e.getMessage(), e);
+            throw new RuntimeException("Configuration file not found", e);
         } catch (NumberFormatException e) {
-            throw new RuntimeException("Invalid port number in " + CONFIG_FILE, e);
+            throw new RuntimeException("Invalid port number", e);
         }
     }
 
