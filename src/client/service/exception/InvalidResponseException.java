@@ -1,4 +1,4 @@
-package client.exception;
+package client.service.exception;
 
 public class InvalidResponseException extends NetworkException {
 

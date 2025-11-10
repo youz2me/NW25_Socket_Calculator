@@ -1,8 +1,10 @@
 package client.view;
 
-import client.exception.NetworkException;
 import client.service.NetworkService;
-import shared.Operation;
+import client.view.exception.CalculationFailedException;
+import client.view.exception.ViewException;
+import client.service.exception.NetworkException;
+import core.Operation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -199,7 +201,7 @@ public final class CalculatorView extends JFrame implements ActionListener {
 
             try {
                 Operation operation = Operation.fromSymbol(operatorText);
-                double result = client.calculate(operation, firstNumber, secondNumber);
+                double result = performCalculation(operation, firstNumber, secondNumber);
 
                 if (result == (long) result) {
                     displayTextField.setText(String.valueOf((long) result));
@@ -209,9 +211,9 @@ public final class CalculatorView extends JFrame implements ActionListener {
                     formatted = formatted.replaceAll("\\.$", "");
                     displayTextField.setText(formatted);
                 }
-            } catch (NetworkException e) {
-                displayTextField.setText("네트워크 오류");
-                System.err.println("Network error: " + e.getMessage());
+            } catch (ViewException e) {
+                displayTextField.setText("계산 오류");
+                System.err.println("Calculation error: " + e.getMessage());
             } catch (IllegalArgumentException e) {
                 displayTextField.setText("연산 오류");
                 System.err.println("Operation error: " + e.getMessage());
@@ -219,6 +221,14 @@ public final class CalculatorView extends JFrame implements ActionListener {
 
             operatorText = "";
             shouldClearDisplay = true;
+        }
+    }
+
+    private double performCalculation(Operation operation, double num1, double num2) {
+        try {
+            return client.calculate(operation, num1, num2);
+        } catch (NetworkException e) {
+            throw new CalculationFailedException("네트워크 오류로 계산 실패", e);
         }
     }
 

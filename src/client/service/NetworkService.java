@@ -1,12 +1,12 @@
 package client.service;
 
-import client.exception.ConnectionFailedException;
-import client.exception.InvalidResponseException;
-import client.exception.ServerErrorException;
+import client.service.exception.ConnectionFailedException;
+import client.service.exception.InvalidResponseException;
+import client.service.exception.ServerErrorException;
 import protocol.request.*;
 import protocol.response.*;
-import shared.NetworkLogger;
-import shared.Operation;
+import core.NetworkLogger;
+import core.Operation;
 
 import java.io.BufferedReader;
 import java.io.IOException;

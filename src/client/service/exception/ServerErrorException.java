@@ -1,4 +1,4 @@
-package client.exception;
+package client.service.exception;
 
 import protocol.response.StatusCode;
 
