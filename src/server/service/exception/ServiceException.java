@@ -1,8 +1,8 @@
-package server.exception;
+package server.service.exception;
 
 import protocol.response.ErrorType;
 
-public class CalculatorException extends RuntimeException {
+public class ServiceException extends RuntimeException {
 
     //region Properties
 
@@ -12,17 +12,17 @@ public class CalculatorException extends RuntimeException {
 
     //region Initialization
 
-    public CalculatorException(ErrorType errorType) {
+    public ServiceException(ErrorType errorType) {
         super(errorType.message);
         this.errorType = errorType;
     }
 
-    public CalculatorException(ErrorType errorType, String message) {
+    public ServiceException(ErrorType errorType, String message) {
         super(message);
         this.errorType = errorType;
     }
 
-    public CalculatorException(ErrorType errorType, String message, Throwable cause) {
+    public ServiceException(ErrorType errorType, String message, Throwable cause) {
         super(message, cause);
         this.errorType = errorType;
     }

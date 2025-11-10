@@ -1,9 +1,9 @@
 package server.service;
 
-import server.exception.DivideByZeroException;
-import server.exception.InvalidOperationException;
+import server.service.exception.DivideByZeroException;
 import server.exception.InvalidSyntaxException;
-import shared.Operation;
+import server.exception.InvalidOperationException;
+import core.Operation;
 
 public final class CalculatorService {
 

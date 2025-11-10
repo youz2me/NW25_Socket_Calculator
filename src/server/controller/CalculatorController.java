@@ -4,11 +4,11 @@ import protocol.request.Request;
 import protocol.response.Response;
 import protocol.response.StatusCode;
 import protocol.request.Method;
-import server.exception.CalculatorException;
 import server.exception.InvalidSyntaxException;
 import server.exception.InvalidOperationException;
+import server.service.exception.ServiceException;
 import server.service.CalculatorService;
-import shared.NetworkLogger;
+import core.NetworkLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,8 +51,8 @@ public final class CalculatorController implements Runnable {
             Response response = processRequest(request);
             NetworkLogger.logResponse("⬆️ SENDING", response, clientInfo);
             sendResponse(out, response);
-        } catch (CalculatorException e) {
-            NetworkLogger.logError("Calculator", e);
+        } catch (ServiceException e) {
+            NetworkLogger.logError("Service", e);
             if (out != null) {
                 Response errorResponse = new Response(StatusCode.BAD_REQUEST, e.getErrorType().message, "");
                 NetworkLogger.logResponse("⬆️ ERROR", errorResponse, clientInfo);
@@ -89,7 +89,7 @@ public final class CalculatorController implements Runnable {
             double result = calculatorService.calculate(body);
             return new Response(StatusCode.OK, "Success", String.valueOf(result));
 
-        } catch (CalculatorException e) {
+        } catch (ServiceException e) {
             return new Response(StatusCode.BAD_REQUEST, e.getErrorType().message, "");
         } catch (Exception e) {
             return new Response(StatusCode.INTERNAL_SERVER_ERROR, "Internal server error", "");

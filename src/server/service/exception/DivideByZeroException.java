@@ -1,8 +1,8 @@
-package server.exception;
+package server.service.exception;
 
 import protocol.response.ErrorType;
 
-public class DivideByZeroException extends CalculatorException {
+public class DivideByZeroException extends ServiceException {
 
     public DivideByZeroException() {
         super(ErrorType.DIVIDE_BY_ZERO, "Cannot divide by zero");
