@@ -1,4 +1,4 @@
-package shared;
+package core;
 
 public enum Operation {
     ADD("+"),

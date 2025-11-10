@@ -1,4 +1,4 @@
-package shared;
+package core;
 
 import protocol.request.Request;
 import protocol.response.Response;
