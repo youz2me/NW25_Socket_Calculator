@@ -24,7 +24,7 @@ HTTP 스타일의 프로토콜과 계층화된 아키텍처를 통해 확장성�
 ## 🏰 아키텍처
 
 ### 전체 시스템 구조
-![](https://github.com/user-attachments/assets/85435205-8e04-4325-91a6-dffe8019cab4)
+![](https://github.com/user-attachments/assets/0cf6b6bc-e185-4aef-98dd-7cd62ff22fcf)
 
 
 ### 📦 Client 모듈
